@@ -7,3 +7,8 @@ print([1, 2, 3][2])  # OK
 print([1, 2, 3][0])  # OK
 print([1, 2, 3][-3])  # OK
 print([1, 2, 3][3:])  # OK
+
+a = (1, 2, 3)
+print((*a, 3)[2])  # OK
+print((*a, 3)[67])  # OK
+print([*a, 3][2])  # OK
