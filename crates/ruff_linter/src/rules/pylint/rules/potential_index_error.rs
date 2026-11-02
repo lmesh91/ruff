@@ -32,6 +32,13 @@ impl Violation for PotentialIndexError {
 
 /// PLE0643
 pub(crate) fn potential_index_error(checker: &Checker, value: &Expr, slice: &Expr) {
+    // Starred items cannot be statically analyzed
+    if let Expr::Tuple(ast::ExprTuple { elts, .. }) | Expr::List(ast::ExprList { elts, .. }) = value
+        && elts.iter().any(Expr::is_starred_expr)
+    {
+        return;
+    }
+
     // Determine the length of the sequence.
     let length = match value {
         Expr::Tuple(ast::ExprTuple { elts, .. }) | Expr::List(ast::ExprList { elts, .. }) => {
